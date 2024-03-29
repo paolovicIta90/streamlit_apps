@@ -8,7 +8,7 @@ import json
 from openai import OpenAI
 import ast
 
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = "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"
 conversation_history=[]
 
 client = OpenAI()
