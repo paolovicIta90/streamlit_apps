@@ -71,7 +71,7 @@ def calculate_roe(transactions, updated_parameters_dict):
         total_roe_pct = round(100 * ((net_investment_cash_return / -(initial_investment))**(1/horizon_year)) - 100,2)
     else:
         total_roe_pct = None  # or some default value, depending on your requirements
-# json.dumps({"roe_result": total_roe_pct})
+
     return total_roe_pct 
 
 def calculate_total_cashoutflow(transactions, updated_parameters_dict):
@@ -88,9 +88,8 @@ def calculate_total_cashoutflow(transactions, updated_parameters_dict):
                             df['final_cashflow'],
                             0)
     
-    cash_outflow = df.loc[:horizon_year]['cash_outflow'].sum()
+    cash_outflow = df.loc[:horizon_year]['cash_outflow'].sum()    
     
-    #json.dumps({"cash_flow_benefit": cash_flow_benefit})
     return cash_outflow
 
 def calculate_annual_housing_cost(transactions, updated_parameters_dict):
@@ -136,36 +135,3 @@ def calculate_equity_accumulation_update(transactions, updated_parameters_dict):
 
 
 
-
-##########################################################################################################################################################################################
-
-def calculate_cash_flow_benefit_manual(transactions, processing_instance, horizon_year):
-
-    df = processing_transforming_df(transactions, processing_instance)
-    
-    df=df.set_index('year')
-    
-
-    cash_flow_benefit = df.loc[:horizon_year]['final_cashflow'].sum()
-    return cash_flow_benefit
-
-def calculate_roe_manual(transactions, horizon_year):
-    
-    df = processing_transforming_df(transactions)
-    
-    df=df.set_index('year')
-    df['actualized_final_cashflow'] = np.where(df['final_cashflow']>0,
-                                                  df['discount_rate']/df.loc[horizon_year, 'discount_rate']*df['final_cashflow'],
-                                                  df['discount_rate']*df['final_cashflow'])
-    
-    initial_investment = sum(x for x in df.loc[:horizon_year, 'actualized_final_cashflow'] if x < 0)
-    net_investment_cash_return = sum(x for x in df.loc[:horizon_year, 'actualized_final_cashflow'] if x > 0)
-    
-    
-    # Ensure initial_investment is not zero to avoid division by zero
-    if initial_investment != 0:
-        total_roe_pct = round(100 * ((net_investment_cash_return / -(initial_investment))**(1/horizon_year)) - 100,2)
-    else:
-        total_roe_pct = None  # or some default value, depending on your requirements
-
-    return total_roe_pct
