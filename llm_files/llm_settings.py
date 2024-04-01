@@ -8,7 +8,11 @@ import json
 from openai import OpenAI
 import ast
 
-os.environ["OPENAI_API_KEY"] = "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"
+# Access the API key from the environment variable
+openai_api_key = os.getenv("OPENAI_API_KEY")
+if not openai_api_key:
+    raise ValueError("OpenAI API key not set")
+    
 conversation_history=[]
 
 client = OpenAI()
