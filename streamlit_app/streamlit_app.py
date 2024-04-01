@@ -52,7 +52,6 @@ if submit_form:
     updated_parameters_dict['ground_lease_expiry'] = ground_lease_expiry
     
 
-st.write(initial_parameters)
 if st.button('Reload My Module'):
     importlib.reload(llm_response)
 
