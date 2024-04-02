@@ -18,17 +18,8 @@ state = {
     "transactions": [],
     }
 
-
-
-
-
 def generate_response(user_prompt, model_finetuned, model_general, updated_parameters_dict):
        
-    # Add user input to conversation history
-    
-    #conversation.add_user_input(user_prompt)  # Context + user input
-
-    # Generate output based on the current input and conversation context
     tool_to_be_used = assess_if_tool_is_needed(user_prompt=user_prompt, model = model_general)
 
     print(tool_to_be_used)
@@ -47,8 +38,7 @@ def generate_response(user_prompt, model_finetuned, model_general, updated_param
         total_housing_cost = calculate_annual_housing_cost(state['transactions'], updated_parameters_dict)
         equity_accumulation_value = calculate_equity_accumulation_update(state['transactions'], updated_parameters_dict)
         real_cost_owing_house = total_housing_cost - equity_accumulation_value
-
-                   
+ 
         answer = f"""The ROE of the real estate investment is {calculate_roe(state['transactions'], updated_parameters_dict)} 
                    The Cashflow Benefit is {calculate_cashflow_benefit(state['transactions'], updated_parameters_dict)}
                    The total cash outflow is {calculate_total_cashoutflow(state['transactions'], updated_parameters_dict)}
@@ -57,14 +47,8 @@ def generate_response(user_prompt, model_finetuned, model_general, updated_param
                    The average real cost (money wasted like rent) of owning a house is {real_cost_owing_house}
                    The average equity accumulation throughout the investment horizon {calculate_equity_accumulation_update(state['transactions'], updated_parameters_dict)}
                    """   
-
-
-        #Example Functions to be used
-        
-        #conversation.add_system_response(f"ROE Calculation: {roe_result}")
-        
         return answer
-    
+        
     else:
         standard_answer = query_llm(user_prompt, model = model_general)
         return standard_answer
